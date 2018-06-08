@@ -1,51 +1,36 @@
 
+bmiTell :: (RealFloat a) => a -> a-> String
+bmiTell weight height = 
+    let
+        bmi = weight / height ^ 2
+        (skinny, normal, fat) = (18.5, 25.0, 30.0)
+    in
+        if bmi < skinny then "skinny"
+        else if bmi < normal then "normal"
+        else if bmi < fat then "fat"
+        else "whale"
+        
 fibo :: (Integral a) => a -> a
 fibo 0 = 0
 fibo 1 = 1
-fibo x = fibo (x - 1) + fibo (x - 2)
+fibo n = n + fibo (n - 1)
 
-max' :: (Ord a) => [a] -> a
-max' [] = error "Maximum of an empty list"
-max' [x] = x
-max' (x:xs)
-    | x > maxTail = x
-    | otherwise = maxTail
-    where maxTail = max' xs
-
-max'' :: (Ord a) => [a] -> a
-max'' [] = error "Maximum of an empty list"
-max'' [x] = x
-max'' (x:xs) = max x (max'' xs)
-
-replicate' :: (Num n, Ord n) => a -> n -> [a]
+replicate' :: (Integral b) => a -> b -> [a]
 replicate' x 0 = []
-replicate' x n = x:replicate' x (n - 1)
+replicate' x n = x : replicate' x (n - 1)
+
+reverce' :: [a] -> [a]
+reverce' [] = []
+reverce' (x:xs) = reverce' xs ++ [x]
 
 qsort :: (Ord a) => [a] -> [a]
 qsort [] = []
-qsort [x] = [x]
-qsort (x:xs)
-    | x <= minimum xs = x:qsort xs
-    | otherwise = qsort (xs ++ x:[])
-    
-qsort2 :: (Ord a) => [a] -> [a]
-qsort2 [] = []
-qsort2 (xs) = [ a | a <- xs, a == minimum xs ] ++ qsort2 [ a | a <- xs, a /= minimum xs ]
+qsort (x:xs) = qsort (filter (<x) xs) ++ [x] ++ qsort (filter (>=x) xs)
 
-    
-quicksort :: (Ord a) => [a] -> [a]  
-quicksort [] = []  
-quicksort (x:xs) =   
-    let smallerSorted = quicksort [a | a <- xs, a <= x]  
-        biggerSorted = quicksort [a | a <- xs, a > x]  
-    in  smallerSorted ++ [x] ++ biggerSorted
-    
+collatz :: (Integral a) => a -> [a]
+collatz 1 = [1]
+collatz x = x : collatz (if even x then div x 2 else x * 3 + 1)
 
-isDigit :: Char -> Bool
-isDigit = (`elem` ['0'..'9'])
 
-multThree :: (Num a) => a -> a -> a -> a
-multThree x y z = x * y * z
-
-elem' :: (Eq a) => a -> [a] -> Bool
-elem' y xs = foldl (\res x -> res || (x == y)) False xs
+-- http://learnyouahaskell.com/higher-order-functions
+-- Function application with $
