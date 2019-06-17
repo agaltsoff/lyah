@@ -16,3 +16,17 @@ max' [x] = x
 max' (x:xs) = if x > max'' then x else max''
     where
         max'' = max' xs
+
+replicate' :: Int -> n -> [n]
+replicate' 0 x = []
+replicate' i x = x : replicate' (i - 1) x
+
+take' :: (Num i, Ord i) => i -> [a] -> [a]
+take' 0 _ = []
+take' _ [] = []
+take' n [x] = [x]
+take' n (x:xs) = x : take' (n - 1) xs
+
+
+
+
