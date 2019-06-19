@@ -6,3 +6,6 @@ twiply f x = f (f x)
 nply :: (Num n, Eq n) => n -> (a -> a) -> a -> a
 nply 0 _ x = x
 nply n f x = f (nply (n -1) f x)
+
+-- Test
+nply_test = nply 3 (++ "!") (nply 5 (++ "-HA") "A")
